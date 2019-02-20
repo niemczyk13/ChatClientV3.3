@@ -7,18 +7,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class ConfirmationOfLeaveGameWindowController {
+	private int typeOfGame;
 	private String opponentPlayerNick;
 	private DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest;
 	
     @FXML
 	public
     void cancel() {
-    	dispatcherOfOutgoingRequest.setTheCommand(new GiveUp(opponentPlayerNick, GiveUp.CANCEL));
+    	dispatcherOfOutgoingRequest.setTheCommand(new GiveUp(typeOfGame, opponentPlayerNick, GiveUp.CANCEL));
     }
 
     @FXML
     void exit(ActionEvent event) {
-    	dispatcherOfOutgoingRequest.setTheCommand(new GiveUp(opponentPlayerNick, GiveUp.GIVE_UP));
+    	dispatcherOfOutgoingRequest.setTheCommand(new GiveUp(typeOfGame, opponentPlayerNick, GiveUp.GIVE_UP));
     }
 
 	public void setOpponentPlayerNick(String opponentPlayerNick) {
@@ -27,5 +28,9 @@ public class ConfirmationOfLeaveGameWindowController {
 
 	public void setDispatcherOfOutgoingRequest(DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest) {
 		this.dispatcherOfOutgoingRequest = dispatcherOfOutgoingRequest;
+	}
+
+	public void setTypeOfGame(int typeOfGame) {
+		this.typeOfGame = typeOfGame;
 	}
 }

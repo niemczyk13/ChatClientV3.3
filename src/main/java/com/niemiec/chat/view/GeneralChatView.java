@@ -56,7 +56,10 @@ public class GeneralChatView {
 	}
 
 	private void addCloseOption() {
-		stage.setOnCloseRequest(e -> generalChatController.exit());
+		stage.setOnCloseRequest(e -> {
+			generalChatController.exit();
+			e.consume();
+		});
 	}
 
 	public void close() {
@@ -114,5 +117,9 @@ public class GeneralChatView {
 
 	public void unblockAllChat() {
 		generalChatController.unblockAllChat();
+	}
+
+	public void setDisablePlayBattleshipWithComputerButton(boolean isDisable) {
+		generalChatController.setDisablePlayBattleshipWithComputerButton(isDisable);
 	}
 }

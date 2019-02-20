@@ -7,6 +7,7 @@ import com.niemiec.chat.command.order.messages.text.PrivateMessage;
 import com.niemiec.chat.command.order.options.generalchat.ExitGeneralChat;
 import com.niemiec.chat.command.order.options.generalchat.UpdaterActualInterlocutor;
 import com.niemiec.chat.dispatchers.general.DispatcherOfOutgoingRequest;
+import com.niemiec.games.battleship.command.order.game.PlayBattleshipOffline;
 import com.niemiec.games.battleship.messages.BattleshipGame;
 
 import javafx.application.Platform;
@@ -16,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -51,6 +53,9 @@ public class GeneralChatController {
 
 	@FXML
 	private Button sendToPrivateChatButton;
+	
+    @FXML
+    private MenuItem playBattleshipWithComputerButton;
 
 	private DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest;
 	private ObservableList<String> usersList;
@@ -174,6 +179,15 @@ public class GeneralChatController {
 	public TextField getTextAreaPrivateChat() {
 		return textAreaPrivateChat;
 	}
+	
+    @FXML
+    void playBattleshipWithComputer() {
+    	dispatcherOfOutgoingRequest.setTheCommand(new PlayBattleshipOffline());
+    }
+    
+    public void setDisablePlayBattleshipWithComputerButton(boolean isDisable) {
+    	playBattleshipWithComputerButton.setDisable(isDisable);
+    }
 	
 	public void blockAllChat() {
 		manu.setDisable(true);

@@ -101,10 +101,21 @@ public class BorderManagement {
 	public void realPlayerAddedShipsAutomatically() {
 		myBorder.setDisable(true);
 	}
+	
+	public void disableOpponentBorder() {
+		opponentBorder.setDisable(true);
+	}
 
 	public void setBordersToEndGame() {
 		Platform.runLater(() -> {
 			myBorder.setDisable(true);
+			opponentBorder.setDisable(true);
+		});
+	}
+	
+	public void setBordersToStartAdd() {
+		Platform.runLater(() -> {
+			myBorder.setDisable(false);
 			opponentBorder.setDisable(true);
 		});
 	}

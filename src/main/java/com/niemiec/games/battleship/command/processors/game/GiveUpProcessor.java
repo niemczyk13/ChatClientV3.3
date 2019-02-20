@@ -2,13 +2,17 @@ package com.niemiec.games.battleship.command.processors.game;
 
 import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.command.order.game.GiveUp;
+import com.niemiec.games.battleship.command.order.option.Exit;
+import com.niemiec.games.battleship.data.BattleshipGameWithComputer;
 import com.niemiec.games.battleship.data.BattleshipGamesManager;
+import com.niemiec.games.battleship.game.Battleship;
 import com.niemiec.games.battleship.messages.BattleshipGame;
-import com.niemiec.games.battleship.view.BattleshipView;
+import com.niemiec.games.battleship.view.management.BattleshipView;
 
 public class GiveUpProcessor {
 	private ChatData chatData;
 	private BattleshipGamesManager battleshipGamesManager;
+	private BattleshipGameWithComputer battleshipGameWithComputer;
 	private BattleshipGame battleshipGame;
 	private GiveUp giveUp;
 	private String opponentPlayerNick;
@@ -16,11 +20,58 @@ public class GiveUpProcessor {
 	public GiveUpProcessor(ChatData chatData) {
 		this.chatData = chatData;
 		battleshipGamesManager = chatData.getBattleshipGamesManager();
+		battleshipGameWithComputer = chatData.getBattleshipGameWithComputer();
 	}
 
 	public void setTheCommand(Object object) {
 		updateGiveUp(object);
 		updateOpoonentPlayerNick();
+		if (gameIsOnline()) {
+			setTheCommandOnlineGame();
+		} else {
+			setTheCommandOfflineGame();
+		}
+	}
+
+	private void setTheCommandOfflineGame() {
+		if (giveUpTheGame()) {
+			closeConfirmationOfLeaveGameWindowView();
+			sendExitCommand();
+		} else {
+			closeConfirmationOfLeaveGameWindowView();
+			unblockMainBattleshipWindow();
+		}
+	}
+
+	private void unblockMainBattleshipWindow() {
+		if (shipsAdded()) {
+			unblockShotBorders();
+		} else {
+			unblockAddBorders();
+		}
+	}
+
+	private void unblockAddBorders() {
+		battleshipGameWithComputer.getBorderManagement().setBordersToStartAdd();
+	}
+
+	private void unblockShotBorders() {
+		battleshipGameWithComputer.getBorderManagement().setBordersToStartShot();
+	}
+
+	private boolean shipsAdded() {
+		return battleshipGameWithComputer.getAddShips().areShipsAdded();
+	}
+
+	private void sendExitCommand() {
+		chatData.getDispatcherOfOutgoingRequest().setTheCommand(new Exit(Battleship.OFFLINE, opponentPlayerNick));
+	}
+
+	private void closeConfirmationOfLeaveGameWindowView() {
+		battleshipGameWithComputer.getBattleshipOfflineView().getConfirmationOfLeaveGameWindowView().close();
+	}
+
+	private void setTheCommandOnlineGame() {
 		updateBattleshipGameFromManager();
 		if (giveUpTheGame()) {
 			startTheResignationProcedure();
@@ -30,7 +81,11 @@ public class GiveUpProcessor {
 			updateViewWindow();
 		}
 	}
-	
+
+	private boolean gameIsOnline() {
+		return giveUp.getTypeOfGame() == Battleship.ONLINE;
+	}
+
 	private void updateGiveUp(Object object) {
 		giveUp = (GiveUp) object;
 	}
@@ -93,7 +148,7 @@ public class GiveUpProcessor {
 			setTheAddedShipsGameWindow();
 		}
 	}
-	
+
 	private void setTheAddedShipsGameWindow() {
 		battleshipGamesManager.getBorderManagement(battleshipGame).continudeAddingShips();
 	}
@@ -103,7 +158,8 @@ public class GiveUpProcessor {
 	}
 
 	private boolean turnOfPlayIsYours() {
-		return battleshipGame.getNickWhoseTourn() != null &&battleshipGame.getNickWhoseTourn().equals(chatData.getNick());
+		return battleshipGame.getNickWhoseTourn() != null
+				&& battleshipGame.getNickWhoseTourn().equals(chatData.getNick());
 	}
 
 	private void setThePlayingGameWindow() {

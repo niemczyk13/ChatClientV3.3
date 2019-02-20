@@ -57,7 +57,9 @@ public class GroupChatMessageProcessor {
 	}
 
 	private String createMessageForShow() {
-		String front = ((chatData.getNick().equals(senderNick)) ? "TY" : senderNick);
+		String userNick = chatData.getNick();
+		String front = ((userNick.equals(senderNick)) ? "TY" : senderNick);
+		String message = groupMessage.getMessage();
 		return new String(front + "> " + message);
 	}
 }

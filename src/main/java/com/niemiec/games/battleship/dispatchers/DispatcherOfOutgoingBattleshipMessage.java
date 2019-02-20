@@ -1,14 +1,16 @@
-package com.niemiec.chat.dispatchers.messages.outgoing;
+package com.niemiec.games.battleship.dispatchers;
 
 import com.niemiec.chat.command.type.messages.game.battleship.BattleshipOptionInterface;
 import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.command.order.game.AcceptRejectionGame;
 import com.niemiec.games.battleship.command.order.game.AnswerToTheGameProposal;
+import com.niemiec.games.battleship.command.order.game.EndOfflineGame;
 import com.niemiec.games.battleship.command.order.game.GiveUp;
+import com.niemiec.games.battleship.command.order.game.PlayBattleshipOffline;
+import com.niemiec.games.battleship.command.order.game.ShipsAddedInOfflineGame;
 import com.niemiec.games.battleship.command.order.game.ShipsAdder;
 import com.niemiec.games.battleship.command.order.game.ShooterMovement;
 import com.niemiec.games.battleship.command.processors.BattleshipProcessorData;
-import com.niemiec.games.battleship.dispatchers.DispatcherOfBattleshipOption;
 import com.niemiec.games.battleship.messages.BattleshipGame;
 
 public class DispatcherOfOutgoingBattleshipMessage {
@@ -35,6 +37,12 @@ public class DispatcherOfOutgoingBattleshipMessage {
 			dispatcherOfBattleshipOption.setTheCommand(object);
 		} else if (object instanceof GiveUp) {
 			battleshipProcessorData.getGiveUpProcessor().setTheCommand(object);
+		} else if (object instanceof PlayBattleshipOffline) {
+			battleshipProcessorData.getPlayBattleshipOfflineProcessor().setTheCommand(object);
+		} else if (object instanceof ShipsAddedInOfflineGame) {
+			battleshipProcessorData.getShipsAddedInOfflineGameProcessor().setTheCommand(object);
+		} else if (object instanceof EndOfflineGame) {
+			battleshipProcessorData.getEndOfflineGameProcessor().setTheCommand(object);
 		}
 	}
 }

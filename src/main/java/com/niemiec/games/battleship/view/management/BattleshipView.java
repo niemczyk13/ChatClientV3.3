@@ -1,7 +1,14 @@
-package com.niemiec.games.battleship.view;
+package com.niemiec.games.battleship.view.management;
 
 import com.niemiec.chat.dispatchers.general.DispatcherOfOutgoingRequest;
+import com.niemiec.games.battleship.game.Battleship;
 import com.niemiec.games.battleship.game.logic.BorderManagement;
+import com.niemiec.games.battleship.view.ConfirmationOfLeaveGameWindowView;
+import com.niemiec.games.battleship.view.GameAcceptanceWindowView;
+import com.niemiec.games.battleship.view.MainBattleshipView;
+import com.niemiec.games.battleship.view.WindowOfTEndGameInformationAndAcceptance;
+import com.niemiec.games.battleship.view.WindowOfWaitingForConfirmationOfTheGameView;
+import com.niemiec.games.battleship.view.WindowWithAnUnacceptableGameView;
 
 public class BattleshipView {
 	private String opponentPlayerNick;
@@ -23,7 +30,7 @@ public class BattleshipView {
 	
 	public MainBattleshipView getMainBattleshipView() {
 		if (mainBattleshipView == null) {
-			mainBattleshipView = new MainBattleshipView(opponentPlayerNick, dispatcherOfOutgoingRequest, borderManagement);
+			mainBattleshipView = new MainBattleshipView(Battleship.ONLINE, opponentPlayerNick, dispatcherOfOutgoingRequest, borderManagement);
 		}
 		return mainBattleshipView;
 	}
@@ -52,7 +59,7 @@ public class BattleshipView {
 	
 	public ConfirmationOfLeaveGameWindowView getConfirmationOfLeaveGameWindowView() {
 		if (confirmationOfLeaveGameWindowView == null) {
-			confirmationOfLeaveGameWindowView = new ConfirmationOfLeaveGameWindowView(opponentPlayerNick, dispatcherOfOutgoingRequest);
+			confirmationOfLeaveGameWindowView = new ConfirmationOfLeaveGameWindowView(Battleship.ONLINE, opponentPlayerNick, dispatcherOfOutgoingRequest);
 		}
 		return confirmationOfLeaveGameWindowView;
 	}
@@ -63,7 +70,7 @@ public class BattleshipView {
 
 	public WindowOfTEndGameInformationAndAcceptance getWindowOfTEndGameInformationAndAcceptance() {
 		if (windowOfTEndGameInformationAndAcceptance == null) {
-			windowOfTEndGameInformationAndAcceptance = new WindowOfTEndGameInformationAndAcceptance(opponentPlayerNick, dispatcherOfOutgoingRequest);
+			windowOfTEndGameInformationAndAcceptance = new WindowOfTEndGameInformationAndAcceptance(Battleship.ONLINE, opponentPlayerNick, dispatcherOfOutgoingRequest);
 		}
 		return windowOfTEndGameInformationAndAcceptance;
 	}

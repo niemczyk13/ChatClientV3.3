@@ -4,10 +4,13 @@ import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.command.processors.game.AcceptRejectionGameProcessor;
 import com.niemiec.games.battleship.command.processors.game.AnswerToTheGameProposalProcessor;
 import com.niemiec.games.battleship.command.processors.game.EndGameProcessor;
+import com.niemiec.games.battleship.command.processors.game.EndOfflineGameProcessor;
 import com.niemiec.games.battleship.command.processors.game.ExitAllBattleshipGamesProcessor;
 import com.niemiec.games.battleship.command.processors.game.GameProposalProcessor;
 import com.niemiec.games.battleship.command.processors.game.GiveUpProcessor;
+import com.niemiec.games.battleship.command.processors.game.PlayBattleshipOfflineProcessor;
 import com.niemiec.games.battleship.command.processors.game.RejectionGameProposalProcessor;
+import com.niemiec.games.battleship.command.processors.game.ShipsAddedInOfflineGameProcessor;
 import com.niemiec.games.battleship.command.processors.game.ShipsAdderProcessor;
 import com.niemiec.games.battleship.command.processors.game.ShooterMovementProcessor;
 import com.niemiec.games.battleship.command.processors.options.CloseBattleshipWindowProcessor;
@@ -26,6 +29,9 @@ public class BattleshipProcessorData {
 	private CloseBattleshipWindowProcessor closeBattleshipWindowProcessor;
 	private ExitProcessor exitProcessor;
 	private ExitAllBattleshipGamesProcessor exitAllBattleshipGamesProcessor;
+	private PlayBattleshipOfflineProcessor playBattleshipOfflineProcessor;
+	private ShipsAddedInOfflineGameProcessor shipsAddedInOfflineGameProcessor;
+	private EndOfflineGameProcessor endOfflineGameProcessor;
 
 	public BattleshipProcessorData(ChatData chatData) {
 		this.chatData = chatData;
@@ -106,5 +112,26 @@ public class BattleshipProcessorData {
 			exitAllBattleshipGamesProcessor = new ExitAllBattleshipGamesProcessor(chatData);
 		}
 		return exitAllBattleshipGamesProcessor;
+	}
+
+	public PlayBattleshipOfflineProcessor getPlayBattleshipOfflineProcessor() {
+		if (playBattleshipOfflineProcessor == null) {
+			playBattleshipOfflineProcessor = new PlayBattleshipOfflineProcessor(chatData);
+		}
+		return playBattleshipOfflineProcessor;
+	}
+
+	public ShipsAddedInOfflineGameProcessor getShipsAddedInOfflineGameProcessor() {
+		if (shipsAddedInOfflineGameProcessor == null) {
+			shipsAddedInOfflineGameProcessor = new ShipsAddedInOfflineGameProcessor(chatData);
+		}
+		return shipsAddedInOfflineGameProcessor;
+	}
+
+	public EndOfflineGameProcessor getEndOfflineGameProcessor() {
+		if (endOfflineGameProcessor == null) {
+			endOfflineGameProcessor = new EndOfflineGameProcessor(chatData);
+		}
+		return endOfflineGameProcessor;
 	}
 }

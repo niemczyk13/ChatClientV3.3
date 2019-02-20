@@ -6,10 +6,12 @@ public class GiveUp implements BattleshipGameInterface {
 	public static final int GIVE_UP = 0;
 	public static final int CANCEL = 1;
 	
+	private int typeOfGame;
 	private String opponentPlayerNick;
 	private int resignation;
 
-	public GiveUp(String opponentPlayerNick, int resignation) {
+	public GiveUp(int typeOfGame, String opponentPlayerNick, int resignation) {
+		this.typeOfGame = typeOfGame;
 		this.opponentPlayerNick = opponentPlayerNick;
 		this.resignation = resignation;
 	}
@@ -20,5 +22,9 @@ public class GiveUp implements BattleshipGameInterface {
 
 	public int getResignation() {
 		return resignation;
+	}
+
+	public int getTypeOfGame() {
+		return typeOfGame;
 	}
 }

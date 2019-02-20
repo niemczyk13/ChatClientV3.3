@@ -27,6 +27,13 @@ public class GetNickView {
 			loadFXMLLoader();
 			updateGetNickController();
 			view();
+			addCloseOption();
+		});
+	}
+
+	private void addCloseOption() {
+		stage.setOnCloseRequest(e -> {
+			System.exit(0);
 		});
 	}
 

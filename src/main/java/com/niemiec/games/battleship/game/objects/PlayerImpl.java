@@ -62,12 +62,12 @@ public class PlayerImpl implements Player, Serializable, Cloneable {
 
 	@Override
 	public boolean isVirtualPlayer() {
-		return (typeOfPlayer == Player.FIRST_PLAYER) ? true : false;
+		return (typeOfPlayer == Player.VIRTUAL_PLAYER) ? true : false;
 	}
 
 	@Override
 	public boolean getInformationInThePlayerIsVirtual() {
-		if (typeOfPlayer == Player.FIRST_PLAYER)
+		if (typeOfPlayer == Player.VIRTUAL_PLAYER)
 			return true;
 		return false;
 	}
@@ -97,8 +97,8 @@ public class PlayerImpl implements Player, Serializable, Cloneable {
 	public Object clone() {
 		PlayerImpl playerImpl = new PlayerImpl(this.typeOfPlayer, this.nick);
 		try {
-			playerImpl.setBoard(board.clone());
-			playerImpl.setOpponentBoard(opponentBoard.clone());
+			playerImpl.setBoard(this.board.clone());
+			playerImpl.setOpponentBoard(this.opponentBoard.clone());
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}

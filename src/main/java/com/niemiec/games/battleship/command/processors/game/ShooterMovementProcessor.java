@@ -1,10 +1,14 @@
 package com.niemiec.games.battleship.command.processors.game;
 
 import com.niemiec.chat.data.ChatData;
+import com.niemiec.games.battleship.command.order.game.EndOfflineGame;
 import com.niemiec.games.battleship.command.order.game.ShooterMovement;
+import com.niemiec.games.battleship.data.BattleshipGameWithComputer;
 import com.niemiec.games.battleship.data.BattleshipGamesManager;
+import com.niemiec.games.battleship.game.Battleship;
 import com.niemiec.games.battleship.game.data.check.CheckData;
 import com.niemiec.games.battleship.game.logic.BorderManagement;
+import com.niemiec.games.battleship.game.logic.ShotShip;
 import com.niemiec.games.battleship.game.objects.Board;
 import com.niemiec.games.battleship.game.objects.Coordinates;
 import com.niemiec.games.battleship.messages.BattleshipGame;
@@ -15,6 +19,7 @@ import javafx.scene.control.Button;
 public class ShooterMovementProcessor {
 	private ChatData chatData;
 	private BattleshipGamesManager battleshipGamesManager;
+	private BattleshipGameWithComputer battleshipGameWithComputer;
 	private BattleshipGame battleshipGame;
 	private ShooterMovement shooterMovement;
 	private Coordinates coordinates;
@@ -22,6 +27,7 @@ public class ShooterMovementProcessor {
 	public ShooterMovementProcessor(ChatData chatData) {
 		this.chatData = chatData;
 		this.battleshipGamesManager = chatData.getBattleshipGamesManager();
+		this.battleshipGameWithComputer = chatData.getBattleshipGameWithComputer();
 	}
 
 	public void receiveTheObject(Object object) {
@@ -33,7 +39,7 @@ public class ShooterMovementProcessor {
 
 	private void updateViewWindow() {
 		if (turnOfPlayIsYours()) {
-			setThePlayingGameWindow();
+			setThePlayingOnlineGameWindow();
 		}
 	}
 
@@ -48,31 +54,75 @@ public class ShooterMovementProcessor {
 
 	public void setTheCommand(Object object) {
 		updateShooterMovement(object);
-		updateBattleshipGameFromManager();
-		updateCoordinates();
-		setThePendingGameWindow();
-		shot();
+		if (gameIsOnline()) {
+			setTheCommandOnline();
+		} else {
+			setTheCommandOffline();
+		}
 	}
 
-	private void shot() {
+	private void setTheCommandOffline() {
+		setThePendingOfflineGameWindow();
+		offlineShot();
+		drawInBordersInOfflineGame();
+	}
+
+	private void offlineShot() {
+		updateCoordinates();
+		if (thisIsWinnerShotInOfflineGame()) {
+			endOfflineGame();
+		} else {
+			setThePlayingOfflineGameWindow();
+		}
+	}
+
+	private void endOfflineGame() {
+		chatData.getDispatcherOfOutgoingRequest().setTheCommand(new EndOfflineGame());
+	}
+
+	private boolean thisIsWinnerShotInOfflineGame() {
+		ShotShip shotShip = battleshipGameWithComputer.getShotShip();
+		return shotShip.shot(coordinates);
+	}
+
+	private void setTheCommandOnline() {
+		updateBattleshipGameFromManager();
+		updateCoordinates();
+		setThePendingOnlineGameWindow();
+		onlineShot();
+	}
+
+	private boolean gameIsOnline() {
+		return shooterMovement.getTypeOfGame() == Battleship.ONLINE;
+	}
+
+	private void onlineShot() {
 		if (playingFieldHasNotBeenUsed()) {
 			setShotCoordinatesInBattleshipGame();
 			sendBattleshipGame();
 		} else {
-			setThePlayingGameWindow();
+			setThePlayingOnlineGameWindow();
 		}
 	}
 
-	private void setThePlayingGameWindow() {
+	private void setThePlayingOnlineGameWindow() {
 		battleshipGamesManager.getBorderManagement(battleshipGame).setBordersToStartShot();
+	}
+	
+	private void setThePlayingOfflineGameWindow() {
+		battleshipGameWithComputer.getBorderManagement().setBordersToStartShot();
 	}
 
 	private void setShotCoordinatesInBattleshipGame() {
 		battleshipGame.setShotCoordinates(coordinates);
 	}
 
-	private void setThePendingGameWindow() {
+	private void setThePendingOnlineGameWindow() {
 		battleshipGamesManager.getBorderManagement(shooterMovement.getOpponentPlayerNick()).setBordersToEndGame();
+	}
+	
+	private void setThePendingOfflineGameWindow() {
+		battleshipGameWithComputer.getBorderManagement().setBordersToEndGame();
 	}
 
 	private void sendBattleshipGame() {
@@ -110,6 +160,13 @@ public class ShooterMovementProcessor {
 		BorderManagement b = battleshipGamesManager.getBorderManagement(battleshipGame);
 		Platform.runLater(() -> {
 			b.drawBoardsInBordersDuringTheGame(battleshipGame.getPlayer());
+		});
+	}
+	
+	private void drawInBordersInOfflineGame() {
+		BorderManagement b = battleshipGameWithComputer.getBorderManagement();
+		Platform.runLater(() -> {
+			b.drawBoardsInBordersDuringTheGame(battleshipGameWithComputer.getRealPlayer());
 		});
 	}
 

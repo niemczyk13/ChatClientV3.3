@@ -9,6 +9,7 @@ import com.niemiec.chat.messages.data.privatechat.InterlocutorsManager;
 import com.niemiec.chat.view.ChatView;
 import com.niemiec.games.battleship.command.processors.BattleshipProcessorData;
 import com.niemiec.games.battleship.data.BattleshipGamesManager;
+import com.niemiec.games.battleship.data.BattleshipGameWithComputer;
 
 public class ChatData {
 	private Connection connection;
@@ -96,5 +97,9 @@ public class ChatData {
 
 	public DispatcherOfOutgoingRequest getDispatcherOfOutgoingRequest() {
 		return dispatcherOfOutgoingRequest;
+	}
+	
+	public BattleshipGameWithComputer getBattleshipGameWithComputer() {
+		return gamesData.getBattleshipData().getBattleshipGameWithComputer();
 	}
 }

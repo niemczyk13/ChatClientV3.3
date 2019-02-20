@@ -3,7 +3,7 @@ package com.niemiec.games.battleship.command.processors.game;
 import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.command.order.game.AcceptRejectionGame;
 import com.niemiec.games.battleship.data.BattleshipGamesManager;
-import com.niemiec.games.battleship.view.BattleshipView;
+import com.niemiec.games.battleship.view.management.BattleshipView;
 
 public class AcceptRejectionGameProcessor {
 	private BattleshipGamesManager battleshipGamesManager;

@@ -11,6 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainBattleshipView {
+	public static final int REAL_PLAYER = 0;
+	public static final int VIRTUAL_PLAYER = 1;
+	private int typeOfGame;
 	private String opponentPlayerNick;
 	private DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest;
 	private BorderManagement borderManagement;
@@ -18,13 +21,15 @@ public class MainBattleshipView {
 	private FXMLLoader loader;
 	private VBox vBox;
 	private Stage stage;
-	
-	public MainBattleshipView(String opponentPlayerNick, DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest, BorderManagement borderManagement) {
+
+	public MainBattleshipView(int typeOfGame, String opponentPlayerNick,
+			DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest, BorderManagement borderManagement) {
+		this.typeOfGame = typeOfGame;
 		this.opponentPlayerNick = opponentPlayerNick;
 		this.dispatcherOfOutgoingRequest = dispatcherOfOutgoingRequest;
 		this.borderManagement = borderManagement;
 	}
-	
+
 	public void show() {
 		Platform.runLater(() -> {
 			loadFXMLLoader();
@@ -42,7 +47,10 @@ public class MainBattleshipView {
 	}
 
 	private void addCloseOption() {
-		stage.setOnCloseRequest(e -> controller.close());
+		stage.setOnCloseRequest(e -> {
+			controller.close();
+			e.consume();
+		});
 	}
 
 	private void view() {
@@ -54,6 +62,7 @@ public class MainBattleshipView {
 	}
 
 	private void updateBattleshipWindowController() {
+		controller.setTypeOfGame(typeOfGame);
 		controller.setOpponentPlayerNick(opponentPlayerNick);
 		controller.setDispatcherOfOutgoingRequest(dispatcherOfOutgoingRequest);
 	}
@@ -67,14 +76,26 @@ public class MainBattleshipView {
 		}
 		controller = loader.getController();
 	}
-	
+
 	public void close() {
 		Platform.runLater(() -> {
 			stage.close();
 		});
 	}
-	
+
 	public MainBattleshipController getController() {
 		return controller;
+	}
+
+	public void disableTrue() {
+		try {
+			stage.wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void disableFalse() {
 	}
 }

@@ -3,6 +3,7 @@ package com.niemiec.games.battleship.command.processors.game;
 import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.command.order.game.GiveUp;
 import com.niemiec.games.battleship.data.BattleshipGamesManager;
+import com.niemiec.games.battleship.game.Battleship;
 
 public class ExitAllBattleshipGamesProcessor {
 	private ChatData chatData;
@@ -26,7 +27,7 @@ public class ExitAllBattleshipGamesProcessor {
 	}
 
 	private void sendGiveUp() {
-		chatData.getDispatcherOfOutgoingRequest().setTheCommand(new GiveUp(opponentPlayerNick, GiveUp.GIVE_UP));
+		chatData.getDispatcherOfOutgoingRequest().setTheCommand(new GiveUp(Battleship.ONLINE, opponentPlayerNick, GiveUp.GIVE_UP));
 	}
 
 	private void getNextOpponentPlayerNick() {

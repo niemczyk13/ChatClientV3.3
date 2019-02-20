@@ -6,10 +6,12 @@ import com.niemiec.games.battleship.command.processors.BattleshipProcessorData;
 public class BattleshipData {
 	private BattleshipGamesManager battleshipGamesManager;
 	private BattleshipProcessorData battleshipProcessorData;
+	private BattleshipGameWithComputer battleshipGameWithComputer;
+	private ChatData chatData;
 	
 	public BattleshipData(ChatData chatData) {
+		this.chatData = chatData;
 		battleshipGamesManager = new BattleshipGamesManager();
-		battleshipProcessorData = new BattleshipProcessorData(chatData);
 	}
 
 	public BattleshipGamesManager getBattleshipGamesManager() {
@@ -17,6 +19,16 @@ public class BattleshipData {
 	}
 
 	public BattleshipProcessorData getBattleshipProcessorData() {
+		if (battleshipProcessorData == null) {
+			battleshipProcessorData = new BattleshipProcessorData(chatData);
+		}
 		return battleshipProcessorData;
+	}
+
+	public BattleshipGameWithComputer getBattleshipGameWithComputer() {
+		if (battleshipGameWithComputer == null) {
+			battleshipGameWithComputer = new BattleshipGameWithComputer(chatData);
+		}
+		return battleshipGameWithComputer;
 	}
 }

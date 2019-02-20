@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class WindowOfTEndGameInformationAndAcceptance {
+	private int typeOfGame;
 	private String opponentPlayerNick;
 	private DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest;
 	private EndGameInformationAndAcceptanceController controller;
@@ -17,7 +18,8 @@ public class WindowOfTEndGameInformationAndAcceptance {
 	private VBox vBox;
 	private Stage stage;
 	
-	public WindowOfTEndGameInformationAndAcceptance(String opponentPlayerNick, DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest) {
+	public WindowOfTEndGameInformationAndAcceptance(int typeOfGame, String opponentPlayerNick, DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest) {
+		this.typeOfGame = typeOfGame;
 		this.opponentPlayerNick = opponentPlayerNick;
 		this.dispatcherOfOutgoingRequest = dispatcherOfOutgoingRequest;
 	}
@@ -44,6 +46,7 @@ public class WindowOfTEndGameInformationAndAcceptance {
 	}
 
 	private void updateEndGameInformationAndAcceptanceController() {
+		controller.setTypeOfGame(typeOfGame);
 		controller.setOpponentPlayerNick(opponentPlayerNick);
 		controller.setDispatcherOfOutgoingRequest(dispatcherOfOutgoingRequest);
 	}
@@ -62,5 +65,9 @@ public class WindowOfTEndGameInformationAndAcceptance {
 		Platform.runLater(() -> {
 			stage.close();
 		});
+	}
+
+	public boolean isView() {
+		return stage != null;
 	}
 }

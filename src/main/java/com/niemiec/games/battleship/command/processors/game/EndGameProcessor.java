@@ -4,7 +4,7 @@ import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.data.BattleshipGamesManager;
 import com.niemiec.games.battleship.game.logic.BorderManagement;
 import com.niemiec.games.battleship.messages.BattleshipGame;
-import com.niemiec.games.battleship.view.BattleshipView;
+import com.niemiec.games.battleship.view.management.BattleshipView;
 
 import javafx.application.Platform;
 

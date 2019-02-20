@@ -2,6 +2,7 @@ package com.niemiec.chat.dispatchers.messages.incoming;
 
 import com.niemiec.chat.command.type.messages.game.battleship.BattleshipGameInterface;
 import com.niemiec.chat.data.ChatData;
+import com.niemiec.games.battleship.dispatchers.DispatcherOfIncomingBattleshipMessage;
 
 public class DispatcherOfIncomingGameMessage {
 	private DispatcherOfIncomingBattleshipMessage dispatcherOfIncomingBattleshipMessage;

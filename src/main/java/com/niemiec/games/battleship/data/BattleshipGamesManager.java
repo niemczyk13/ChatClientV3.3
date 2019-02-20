@@ -6,7 +6,7 @@ import com.niemiec.games.battleship.controllers.MainBattleshipController;
 import com.niemiec.games.battleship.game.logic.AddShips;
 import com.niemiec.games.battleship.game.logic.BorderManagement;
 import com.niemiec.games.battleship.messages.BattleshipGame;
-import com.niemiec.games.battleship.view.BattleshipView;
+import com.niemiec.games.battleship.view.management.BattleshipView;
 
 public class BattleshipGamesManager {
 	private ArrayList<String> opponentPlayers;
@@ -33,7 +33,6 @@ public class BattleshipGamesManager {
 		borderManagements.add(borderManagement);
 		
 		AddShips aS = new AddShips();
-		aS.addBorderManagement(borderManagement);
 		addShips.add(aS);
 		
 	}

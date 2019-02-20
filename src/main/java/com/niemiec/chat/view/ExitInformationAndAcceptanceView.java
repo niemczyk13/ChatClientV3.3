@@ -32,7 +32,10 @@ public class ExitInformationAndAcceptanceView {
 	}
 
 	private void addCloseOption() {
-		stage.setOnCloseRequest(e -> controller.cancel());
+		stage.setOnCloseRequest(e -> {
+			controller.cancel();
+			e.consume();
+		});
 	}
 
 	private void loadFXMLLoader() {

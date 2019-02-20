@@ -22,9 +22,8 @@ public class AddShips implements Serializable {
 	int currentQuantityShipsOfGivenType;
 	int currentShip;
 	int currentMast;
-	Ship ship;
-	Coordinates coordinates;
-	private BorderManagement borderManagement;
+	private Ship ship;
+	private Coordinates coordinates;
 
 	public AddShips() {
 		setTheInitialConditions();
@@ -33,13 +32,13 @@ public class AddShips implements Serializable {
 	
 	public void addOneRealPlayer(Player realPlayer) {
 		players = new Player[2];
-		players[Player.SECOND_PLAYER] = realPlayer;
+		players[Player.REAL_PLAYER] = realPlayer;
 	}
 
 	public void addPlayers(Player realPlayer, Player virtualPlayer) {
 		players = new Player[2];
-		players[Player.SECOND_PLAYER] = realPlayer;
-		players[Player.FIRST_PLAYER] = virtualPlayer;
+		players[Player.REAL_PLAYER] = realPlayer;
+		players[Player.VIRTUAL_PLAYER] = virtualPlayer;
 	}
 
 	public boolean addShipsManually(int typeOfPlayer, ActionEvent event) {
@@ -47,9 +46,6 @@ public class AddShips implements Serializable {
 		setActualTypeOfPlayer(typeOfPlayer);
 		getCoordinatesFromButton((Button) event.getSource());
 		addShips();
-		
-		borderManagement.drawBoardInMyBorder(players[typeOfPlayer]);
-		
 		return conditionOfTheEndOfAddingShips();
 	}
 
@@ -60,7 +56,6 @@ public class AddShips implements Serializable {
 			coordinates = creatorAutomaticallyData.downloadCoordinatesWhenAddShip(ship, currentMast);
 			addShips();
 		}
-		borderManagement.drawBoardInMyBorder(players[typeOfPlayer]);
 		return true;
 	}
 
@@ -149,7 +144,7 @@ public class AddShips implements Serializable {
 		this.currentShip = getCurrentShip();
 		this.ship = new Ship(getActualNumberOfMasts());
 		this.currentMast = 0;
-		this.actualPlayer = Player.FIRST_PLAYER;
+		this.actualPlayer = Player.VIRTUAL_PLAYER;
 	}
 
 	private void updateCurrentShipAndCurrentQuantityShipsOfGivenType() {
@@ -177,9 +172,5 @@ public class AddShips implements Serializable {
 
 	public Player getPlayer(int typeOfPlayer) {
 		return players[typeOfPlayer];
-	}
-
-	public void addBorderManagement(BorderManagement borderManagement) {
-		this.borderManagement = borderManagement;
 	}
 }

@@ -5,7 +5,7 @@ import com.niemiec.games.battleship.data.BattleshipGamesManager;
 import com.niemiec.games.battleship.game.objects.Player;
 import com.niemiec.games.battleship.game.objects.PlayerImpl;
 import com.niemiec.games.battleship.messages.BattleshipGame;
-import com.niemiec.games.battleship.view.BattleshipView;
+import com.niemiec.games.battleship.view.management.BattleshipView;
 
 public class GameProposalProcessor {
 	private ChatData chatData;
@@ -53,7 +53,7 @@ public class GameProposalProcessor {
 	}
 
 	private void setPlayersInBattleshipGame() {
-		battleshipGame.setPlayer(new PlayerImpl(Player.SECOND_PLAYER, chatData.getNick()));
+		battleshipGame.setPlayer(new PlayerImpl(Player.REAL_PLAYER, chatData.getNick()));
 		battleshipGame.setOpponentPlayerNick(chatData.getActualInterlocutor());
 	}
 

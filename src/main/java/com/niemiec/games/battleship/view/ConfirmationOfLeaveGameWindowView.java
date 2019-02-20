@@ -16,8 +16,11 @@ public class ConfirmationOfLeaveGameWindowView {
 	private FXMLLoader loader;
 	private VBox vBox;
 	private Stage stage;
+	private int typeOfGame;
 
-	public ConfirmationOfLeaveGameWindowView(String opponentPlayerNick, DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest) {
+	public ConfirmationOfLeaveGameWindowView(int typeOfGame, String opponentPlayerNick,
+			DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest) {
+		this.typeOfGame = typeOfGame;
 		this.opponentPlayerNick = opponentPlayerNick;
 		this.dispatcherOfOutgoingRequest = dispatcherOfOutgoingRequest;
 	}
@@ -30,23 +33,26 @@ public class ConfirmationOfLeaveGameWindowView {
 			addCloseOption();
 		});
 	}
-	
+
 	private void addCloseOption() {
-		stage.setOnCloseRequest(e -> controller.cancel());
+		stage.setOnCloseRequest(e -> {
+			controller.cancel();
+		});
 	}
-	
+
 	private void view() {
 		Scene scene = new Scene(vBox);
 		stage = new Stage();
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
 	private void updateConfirmationOfLeaveGameWindowController() {
 		controller.setOpponentPlayerNick(opponentPlayerNick);
 		controller.setDispatcherOfOutgoingRequest(dispatcherOfOutgoingRequest);
+		controller.setTypeOfGame(typeOfGame);
 	}
-	
+
 	private void loadFXMLLoader() {
 		loader = new FXMLLoader(this.getClass().getResource("/fxml/battleship/ConfirmationOfLeaveGameWindow.fxml"));
 		try {
@@ -56,7 +62,7 @@ public class ConfirmationOfLeaveGameWindowView {
 		}
 		controller = loader.getController();
 	}
-	
+
 	public void close() {
 		Platform.runLater(() -> {
 			stage.close();

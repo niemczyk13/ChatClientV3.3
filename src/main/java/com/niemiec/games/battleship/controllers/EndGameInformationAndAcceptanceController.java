@@ -15,12 +15,13 @@ public class EndGameInformationAndAcceptanceController {
     @FXML
     private Button okButton;
     
+    private int typeOfGame;
     private String opponentPlayerNick;
     private DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest;
 
     @FXML
     public void understand() {
-    	dispatcherOfOutgoingRequest.setTheCommand(new Exit(opponentPlayerNick));
+    	dispatcherOfOutgoingRequest.setTheCommand(new Exit(typeOfGame, opponentPlayerNick));
     }
 
 	public void setOpponentPlayerNick(String opponentPlayerNick) {
@@ -33,5 +34,9 @@ public class EndGameInformationAndAcceptanceController {
 
 	public void setDispatcherOfOutgoingRequest(DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest) {
 		this.dispatcherOfOutgoingRequest = dispatcherOfOutgoingRequest;
+	}
+
+	public void setTypeOfGame(int typeOfGame) {
+		this.typeOfGame = typeOfGame;
 	}
 }

@@ -1,4 +1,4 @@
-package com.niemiec.chat.dispatchers.messages.incoming;
+package com.niemiec.games.battleship.dispatchers;
 
 import com.niemiec.chat.data.ChatData;
 import com.niemiec.games.battleship.command.processors.BattleshipProcessorData;

@@ -21,6 +21,11 @@
                     <MenuItem mnemonicParsing="false" onAction="#exit" text="Zamknij" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Gra">
+                    <items>
+                      <MenuItem fx:id="playBattleshipWithComputerButton" mnemonicParsing="false" onAction="#playBattleshipWithComputer" text="Gra w statki z komputerem" />
+                    </items>
+                  </Menu>
               </menus>
             </MenuBar>
             <HBox prefHeight="549.0" prefWidth="980.0">

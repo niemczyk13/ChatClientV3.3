@@ -8,7 +8,6 @@ import com.niemiec.games.battleship.command.order.option.CloseBattleshipWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.VBox;
 
@@ -621,9 +620,6 @@ public class MainBattleshipController {
 	private Button ob99;
 
 	@FXML
-	private CheckMenuItem automaticallySpacingOfShipsButton;
-	
-	@FXML
 	private Menu gameMenu;
 	
 	@FXML
@@ -632,6 +628,7 @@ public class MainBattleshipController {
 	@FXML
 	private Menu helpMenu;
 
+	private int typeOfGame;
 	private String opponentPlayerNick;
 	private DispatcherOfOutgoingRequest dispatcherOfOutgoingRequest;
 
@@ -645,27 +642,26 @@ public class MainBattleshipController {
 
 	@FXML
 	void myButtonAction(ActionEvent event) {
-		dispatcherOfOutgoingRequest.setTheCommand(new ShipsAdder(opponentPlayerNick, event));
+		dispatcherOfOutgoingRequest.setTheCommand(new ShipsAdder(typeOfGame, opponentPlayerNick, event));
 	}
 
 	@FXML
 	void opponentButtonAction(ActionEvent event) {
-		dispatcherOfOutgoingRequest.setTheCommand(new ShooterMovement(opponentPlayerNick, event));
+		dispatcherOfOutgoingRequest.setTheCommand(new ShooterMovement(typeOfGame, opponentPlayerNick, event));
 	}
 
 	@FXML
 	public void close() {
-		dispatcherOfOutgoingRequest.setTheCommand(new CloseBattleshipWindow(opponentPlayerNick));
+		dispatcherOfOutgoingRequest.setTheCommand(new CloseBattleshipWindow(typeOfGame, opponentPlayerNick));
 	}
 
 	@FXML
 	void setAutomaticallySpacingOfShips() {
-		dispatcherOfOutgoingRequest.setTheCommand(new ShipsAdder(opponentPlayerNick));
+		dispatcherOfOutgoingRequest.setTheCommand(new ShipsAdder(typeOfGame, opponentPlayerNick));
 	}
 
-	@FXML
-	public void startGame() {
-//		gameLogic.startNewGameWithVirtualPlayer();
+	public void setTypeOfGame(int typeOfGame) {
+		this.typeOfGame = typeOfGame;
 	}
 
 	public void setOpponentPlayerNick(String opponentPlayerNick) {
