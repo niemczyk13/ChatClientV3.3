@@ -18,12 +18,8 @@ public class CreatorAutomaticallyData implements Serializable  {
 	protected final int DIRECTION_ALONG_Y = 1;
 	protected final int DIRECTION_ALONG_X = 2;
 
-	protected final int RIGHT = 0;
-	protected final int DOWN = 0;
-	protected final int LEFT = 1;
-	protected final int TOP = 1;
-
-	
+	protected final int RIGHT_OR_DOWN = 0;
+	protected final int LEFT_OR_TOP = 1;
 
 	public CreatorAutomaticallyData() {
 		random = new Random();
@@ -81,11 +77,11 @@ public class CreatorAutomaticallyData implements Serializable  {
 	}
 
 	private boolean randomRightSide(int randomSide) {
-		return randomSide == RIGHT;
+		return randomSide == RIGHT_OR_DOWN;
 	}
 
 	private boolean randomLeftSide(int randomSide) {
-		return (randomSide == LEFT);
+		return (randomSide == LEFT_OR_TOP);
 	}
 
 	private boolean thereIsPlaceOnTheLeftOrTop(int firstMastXorY) {
@@ -124,9 +120,9 @@ public class CreatorAutomaticallyData implements Serializable  {
 	private Coordinates followWhenDirectionItIsAlongX(int side, int coordinateX, int coordinateY) {
 		Coordinates coordinates = new Coordinates();
 		coordinates.setX(coordinateX);
-		if (side == LEFT && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX, coordinateY - 1)))
+		if (side == LEFT_OR_TOP && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX, coordinateY - 1)))
 			coordinates.setY(coordinateY - 1);
-		else if (side == RIGHT && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX, coordinateY + 1)))
+		else if (side == RIGHT_OR_DOWN && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX, coordinateY + 1)))
 			coordinates.setY(coordinateY + 1);
 
 		return coordinates;
@@ -135,9 +131,9 @@ public class CreatorAutomaticallyData implements Serializable  {
 	private Coordinates followWhenDirectionItIsAlongY(int side, int coordinateX, int coordinateY) {
 		Coordinates coordinates = new Coordinates();
 		coordinates.setY(coordinateY);
-		if (side == LEFT && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX - 1, coordinateY)))
+		if (side == LEFT_OR_TOP && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX - 1, coordinateY)))
 			coordinates.setX(coordinateX - 1);
-		else if (side == RIGHT && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX + 1, coordinateY)))
+		else if (side == RIGHT_OR_DOWN && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX + 1, coordinateY)))
 			coordinates.setX(coordinateX + 1);
 
 		return coordinates;
