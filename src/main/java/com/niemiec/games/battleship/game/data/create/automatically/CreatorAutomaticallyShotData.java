@@ -27,7 +27,7 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 
 	private Coordinates nextMoveVirtualPlayer(int activePlayer) {
 		int directionOnHit = players[activePlayer].getDirectionOnHit();
-		if (directionOnHit == directionNotSelected) {
+		if (directionOnHit == DIRECTION_NOT_SELECTED) {
 			return hitOfSecondMastByVirtualPlayer(activePlayer);
 		} else {
 			return hitOfTheOthersMastsByVirtualPlayer(activePlayer);
@@ -41,9 +41,9 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 		int side;
 		while (true) {
 			side = random.nextInt(2);
-			if (player.getDirectionOnHit() == directionX) {
+			if (player.getDirectionOnHit() == DIRECTION_ALONG_Y) {
 				nextCoordinates = selectedCoordinatesOtherMastsDirectionX(side, coordinatesHit, activePlayer);
-			} else if (player.getDirectionOnHit() == directionY) {
+			} else if (player.getDirectionOnHit() == DIRECTION_ALONG_X) {
 				nextCoordinates = selectedCoordinatesOtherMastsDirectionY(side, coordinatesHit, activePlayer);
 			}
 			
@@ -56,22 +56,22 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 		PlayerImpl player = players[activePlayer];
 		int opponentPlayer = getIndexOpponentPlayer(activePlayer);
 		int currentNumberOfHitMasts = players[opponentPlayer].getCollectionShips().getShip(coordinatesHit).getCurrentNumberOfHitMasts();
-		if (side == rightAndDown 
+		if (side == RIGHT 
 				&& new Coordinates(coordinatesHit, 1, 0).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 1, 0)) == Board.BOX_EMPTY) {
 			return new Coordinates(coordinatesHit, 1, 0);
-		} else if (side == rightAndDown
+		} else if (side == RIGHT
 				&& new Coordinates(coordinatesHit, currentNumberOfHitMasts, 0).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, currentNumberOfHitMasts - 1, 0)) == Board.BOX_HIT
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, currentNumberOfHitMasts, 0)) == Board.BOX_EMPTY) {
 			return new Coordinates(coordinatesHit, currentNumberOfHitMasts, 0);
 		}
 		
-		if (side == leftAndTop 
+		if (side == LEFT 
 				&& new Coordinates(coordinatesHit, -1, 0).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, -1, 0)) == Board.BOX_EMPTY) {
 			return new Coordinates(coordinatesHit, -1, 0);
-		} else if (side == leftAndTop
+		} else if (side == LEFT
 				&& new Coordinates(coordinatesHit, -currentNumberOfHitMasts, 0).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, -currentNumberOfHitMasts + 1, 0)) == Board.BOX_HIT
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, -currentNumberOfHitMasts, 0)) == Board.BOX_EMPTY) {
@@ -84,22 +84,22 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 		PlayerImpl player = players[activePlayer];
 		int opponentPlayer = getIndexOpponentPlayer(activePlayer);
 		int currentNumberOfHitMasts = players[opponentPlayer].getCollectionShips().getShip(coordinatesHit).getCurrentNumberOfHitMasts();
-		if (side == rightAndDown 
+		if (side == RIGHT 
 				&& new Coordinates(coordinatesHit, 0, 1).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 0, 1)) == Board.BOX_EMPTY) {
 			return new Coordinates(coordinatesHit, 0, 1);
-		} else if (side == rightAndDown
+		} else if (side == RIGHT
 				&& new Coordinates(coordinatesHit, 0, currentNumberOfHitMasts).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 0, currentNumberOfHitMasts - 1)) == Board.BOX_HIT
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 0, currentNumberOfHitMasts)) == Board.BOX_EMPTY) {
 			return new Coordinates(coordinatesHit, 0, currentNumberOfHitMasts);
 		}
 		
-		if (side == leftAndTop 
+		if (side == LEFT 
 				&& new Coordinates(coordinatesHit, 0, -1).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 0, -1)) == Board.BOX_EMPTY) {
 			return new Coordinates(coordinatesHit, 0, -1);
-		} else if (side == leftAndTop
+		} else if (side == LEFT
 				&& new Coordinates(coordinatesHit, 0, -currentNumberOfHitMasts).checkIfWithinThePlayingField()
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 0, -currentNumberOfHitMasts + 1)) == Board.BOX_HIT
 				&& player.getOpponentBoard().getBox(new Coordinates(coordinatesHit, 0, -currentNumberOfHitMasts)) == Board.BOX_EMPTY) {
@@ -119,9 +119,9 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 		while (true) {
 			direction = random.nextInt(2) + 1;
 			side = random.nextInt(2);
-			if (direction == directionX) {
+			if (direction == DIRECTION_ALONG_Y) {
 				nextCoordinates = selectedCoordinatesSecondMastDirectionX(side, coordinatesHit);
-			} else if (direction == directionY) {
+			} else if (direction == DIRECTION_ALONG_X) {
 				nextCoordinates = selectedCoordinatesSecondMastDirectionY(side, coordinatesHit);
 			}
 			
@@ -139,7 +139,7 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 
 	private Coordinates selectedCoordinatesSecondMastDirectionY(int side, Coordinates coordinatesHit) {
 		Coordinates coordinates = null;
-		if (side == rightAndDown) {
+		if (side == RIGHT) {
 			coordinates = new Coordinates(coordinatesHit, 1, 0);
 		} else {
 			coordinates = new Coordinates(coordinatesHit, -1, 0);
@@ -149,7 +149,7 @@ public class CreatorAutomaticallyShotData extends CreatorAutomaticallyData {
 
 	private Coordinates selectedCoordinatesSecondMastDirectionX(int side, Coordinates coordinatesHit) {
 		Coordinates coordinates = null;
-		if (side == rightAndDown) {
+		if (side == RIGHT) {
 			coordinates = new Coordinates(coordinatesHit, 0, 1);
 		} else {
 			coordinates = new Coordinates(coordinatesHit, 0, -1);
