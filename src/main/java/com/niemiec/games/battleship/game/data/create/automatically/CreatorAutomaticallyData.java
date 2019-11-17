@@ -11,6 +11,7 @@ import com.niemiec.games.battleship.game.objects.Ship;
 public class CreatorAutomaticallyData implements Serializable  {
 	protected Random random;
 	private final int RANDOM_TWO_SIDE = 2;
+	private final int RANDOM_TWO_DIRECTION = 2;
 	private final int FIRST_MAST = 1;
 	private final int ZERO_MASTED_INSERTED = 0;
 	private final int ONE_MAST_INSERTED = 1;
@@ -20,6 +21,7 @@ public class CreatorAutomaticallyData implements Serializable  {
 
 	protected final int RIGHT_OR_DOWN = 0;
 	protected final int LEFT_OR_TOP = 1;
+	private final int RANDOM_COORDINATE_IS_NOT_GOOD = -1;
 
 	public CreatorAutomaticallyData() {
 		random = new Random();
@@ -49,27 +51,35 @@ public class CreatorAutomaticallyData implements Serializable  {
 	protected Coordinates randomTheReamainingMasts(Ship ship, int currentMast) {
 		Coordinates coordinates = new Coordinates();
 		int randomSide = random.nextInt(RANDOM_TWO_SIDE);
-		int firstMastX = ship.getCoordinates(FIRST_MAST).getX();
-		int firstMastY = ship.getCoordinates(FIRST_MAST).getY();
+		int firstMastCoordinateX = ship.getCoordinates(FIRST_MAST).getX();
+		int firstMastCoordinateY = ship.getCoordinates(FIRST_MAST).getY();
 		int shipDirection = ship.getDirection();
 
 		if (theDirectionIsAlongY(shipDirection)) {
-			coordinates.setY(firstMastY);
-			coordinates.setX(setMast(randomSide, firstMastX, ship));
+			coordinates.setY(firstMastCoordinateY);
+			coordinates.setX(setMast(randomSide, firstMastCoordinateX, ship));
 		} else if (theDirectionIsAlongX(shipDirection)) {
-			coordinates.setX(firstMastX);
-			coordinates.setY(setMast(randomSide, firstMastY, ship));
+			coordinates.setX(firstMastCoordinateX);
+			coordinates.setY(setMast(randomSide, firstMastCoordinateY, ship));
 		}
 		return coordinates;
 	}
 
 	private int setMast(int randomSide, int firstMastXorY, Ship ship) {
 		if (randomLeftSide(randomSide) && thereIsPlaceOnTheLeftOrTop(firstMastXorY)) {
-			return (firstMastXorY - 1);
+			return returnThePreviousField(firstMastXorY);
 		} else if (randomRightSide(randomSide) && thereIsPlaceOnTheRightOrDwon(firstMastXorY, ship)) {
-			return (firstMastXorY + ship.getCurrentNumberOfMasts());
+			return returnTheNextField(firstMastXorY, ship.getCurrentNumberOfMasts());
 		}
-		return -1;
+		return RANDOM_COORDINATE_IS_NOT_GOOD;
+	}
+
+	private int returnTheNextField(int firstMastXorY, int currentNumberOfMasts) {
+		return firstMastXorY + currentNumberOfMasts;
+	}
+
+	private int returnThePreviousField(int firstMastXorY) {
+		return firstMastXorY - 1;
 	}
 
 	private boolean thereIsPlaceOnTheRightOrDwon(int firstMastXorY, Ship ship) {
@@ -97,7 +107,7 @@ public class CreatorAutomaticallyData implements Serializable  {
 	}
 
 	private Coordinates randomTheSecondMast(Ship ship) {
-		int direction = random.nextInt(2) + 1;
+		int direction = random.nextInt(RANDOM_TWO_DIRECTION) + 1;
 		return assignCoordinates(direction, ship);
 	}
 
