@@ -8,8 +8,8 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Ship implements Serializable  {
 	public static final int SHIP_DIRECTION_NO_SPACE = 0;
-	public static final int SHIP_DIRECTION_X = 1;
-	public static final int SHIP_DIRECTION_Y = 2;
+	public static final int SHIP_DIRECTION_ALONG_X = 1;
+	public static final int SHIP_DIRECTION_ALONG_Y = 2;
 	public static final int SHIP_DIRECTION_XY = 3;
 	
 	private List<Integer> pointOnTheAxisX;
@@ -68,10 +68,18 @@ public class Ship implements Serializable  {
 	}
 
 	public void sortMasts() {
-		if ((pointOnTheAxisX.get(1) - pointOnTheAxisX.get(0)) == 0)
+		if (shipDirectionIsAlongY()) {
 			Collections.sort(pointOnTheAxisY);
-		else if ((pointOnTheAxisY.get(1) - pointOnTheAxisY.get(0)) == 0)
+		} else if (shipDirectionIsAlongX())
 			Collections.sort(pointOnTheAxisX);
+	}
+	
+	private boolean shipDirectionIsAlongX() {
+		return (pointOnTheAxisY.get(1) - pointOnTheAxisY.get(0)) == 0;
+	}
+
+	private boolean shipDirectionIsAlongY() {
+		return (pointOnTheAxisX.get(1) - pointOnTheAxisX.get(0)) == 0;
 	}
 
 	public int getCurrentNumberOfHitMasts() {
