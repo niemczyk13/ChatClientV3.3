@@ -47,9 +47,9 @@ public class CheckData {
 	}
 
 	private static boolean checkEveryDirection(Coordinates coordinates, int x, int y) {
-		if (checkTheDirectionOnTheShip(Ship.SHIP_DIRECTION_ALONG_X))
+		if (checkTheDirectionOnTheShip(Ship.SHIP_DIRECTION_X))
 			return checkDirection(coordinates.getX(), x, coordinates.getY(), y);
-		if (checkTheDirectionOnTheShip(Ship.SHIP_DIRECTION_ALONG_Y))
+		if (checkTheDirectionOnTheShip(Ship.SHIP_DIRECTION_Y))
 			return checkDirection(coordinates.getY(), y, coordinates.getX(), x);
 		if (checkTheDirectionOnTheShip(Ship.SHIP_DIRECTION_XY)) {
 			return checkDirectionXY(coordinates, x, y);
@@ -59,11 +59,11 @@ public class CheckData {
 
 	private static boolean checkDirectionXY(Coordinates coordinates, int x, int y) {
 		if (checkDirection(coordinates.getX(), x, coordinates.getY(), y)) {
-			ship.setDirection(Ship.SHIP_DIRECTION_ALONG_X);
+			ship.setDirection(Ship.SHIP_DIRECTION_X);
 			return true;
 		}
 		if (checkDirection(coordinates.getY(), y, coordinates.getX(), x)) {
-			ship.setDirection(Ship.SHIP_DIRECTION_ALONG_Y);
+			ship.setDirection(Ship.SHIP_DIRECTION_Y);
 			return true;
 		}
 		return false;
@@ -154,10 +154,10 @@ public class CheckData {
 			ship.setDirection(Ship.SHIP_DIRECTION_NO_SPACE);
 			return false;
 		case 1:
-			ship.setDirection(Ship.SHIP_DIRECTION_ALONG_X);
+			ship.setDirection(Ship.SHIP_DIRECTION_X);
 			return true;
 		case 2:
-			ship.setDirection(Ship.SHIP_DIRECTION_ALONG_Y);
+			ship.setDirection(Ship.SHIP_DIRECTION_Y);
 			return true;
 		case 3:
 			ship.setDirection(Ship.SHIP_DIRECTION_XY);

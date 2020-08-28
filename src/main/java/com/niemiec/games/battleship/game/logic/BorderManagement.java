@@ -1,5 +1,8 @@
 package com.niemiec.games.battleship.game.logic;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import com.niemiec.games.battleship.game.objects.Board;
 import com.niemiec.games.battleship.game.objects.Coordinates;
 import com.niemiec.games.battleship.game.objects.Player;
@@ -8,6 +11,8 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -85,9 +90,28 @@ public class BorderManagement {
 	private void drawInButton(Button button, Board board, Coordinates coordinates) {
 		if (board == null) {
 			button.setText("");
+			button.setGraphic(null);
 		} else {
 			int box = board.getBox(coordinates);
-			button.setText((box != 0) ? Integer.toString(box) : "");
+			if (box != 0) {
+			FileInputStream in = null;
+			try {
+				if (box == 1) {
+					in = new FileInputStream("src/main/resources/img/box_not_hit.png");
+				} else if (box == 2 || box == 4) {
+					in = new FileInputStream("src/main/resources/img/box_ship.png");
+				} else if (box == 3 || box == 5) {
+					in = new FileInputStream("src/main/resources/img/box_hit.png");
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			Image img = new Image(in);
+			ImageView view = new ImageView(img);
+			button.setGraphic(view);
+			button.getGraphic().maxHeight(button.getMaxHeight());
+			button.getGraphic().maxWidth(button.getMaxWidth());
+			}
 		}
 	}
 

@@ -10,18 +10,15 @@ import com.niemiec.games.battleship.game.objects.Ship;
 @SuppressWarnings("serial")
 public class CreatorAutomaticallyData implements Serializable  {
 	protected Random random;
-	private final int RANDOM_TWO_SIDE = 2;
-	private final int RANDOM_TWO_DIRECTION = 2;
-	private final int FIRST_MAST = 1;
-	private final int ZERO_MASTED_INSERTED = 0;
-	private final int ONE_MAST_INSERTED = 1;
-	protected final int DIRECTION_NOT_SELECTED = 0;
-	protected final int DIRECTION_ALONG_Y = 1;
-	protected final int DIRECTION_ALONG_X = 2;
+	private final int firstMast = 1;
+	protected final int directionNotSelected = 0;
+	protected final int directionX = 1;
+	protected final int directionY = 2;
 
-	protected final int RIGHT_OR_DOWN = 0;
-	protected final int LEFT_OR_TOP = 1;
-	private final int RANDOM_COORDINATE_IS_NOT_GOOD = -1;
+	protected final int rightAndDown = 0;
+	protected final int leftAndTop = 1;
+
+	
 
 	public CreatorAutomaticallyData() {
 		random = new Random();
@@ -32,10 +29,10 @@ public class CreatorAutomaticallyData implements Serializable  {
 
 		while (true) {
 			switch (currentMast) {
-			case ZERO_MASTED_INSERTED:
+			case 0:
 				coordinates = randomTheFirstMast();
 				break;
-			case ONE_MAST_INSERTED:
+			case 1:
 				coordinates = randomTheSecondMast(ship);
 				break;
 			default:
@@ -49,102 +46,68 @@ public class CreatorAutomaticallyData implements Serializable  {
 	}
 
 	protected Coordinates randomTheReamainingMasts(Ship ship, int currentMast) {
+		int side = random.nextInt(2);
 		Coordinates coordinates = new Coordinates();
-		int randomSide = random.nextInt(RANDOM_TWO_SIDE);
-		int firstMastCoordinateX = ship.getCoordinates(FIRST_MAST).getX();
-		int firstMastCoordinateY = ship.getCoordinates(FIRST_MAST).getY();
-		int shipDirection = ship.getDirection();
+		int x = ship.getCoordinates(1).getX();
+		int y = ship.getCoordinates(1).getY();
 
-		if (theDirectionIsAlongY(shipDirection)) {
-			coordinates.setY(firstMastCoordinateY);
-			coordinates.setX(setMast(randomSide, firstMastCoordinateX, ship));
-		} else if (theDirectionIsAlongX(shipDirection)) {
-			coordinates.setX(firstMastCoordinateX);
-			coordinates.setY(setMast(randomSide, firstMastCoordinateY, ship));
+		if (ship.getDirection() == 1) {
+			coordinates.setY(y);
+			if (side == 1 && (x - 1) > 0) {
+				coordinates.setX(x - 1);
+			} else if (side == 0 && (x + ship.getCurrentNumberOfMasts()) <= 10) {
+				coordinates.setX(x + ship.getCurrentNumberOfMasts());
+			}
+		} else if (ship.getDirection() == 2) {
+			coordinates.setX(x);
+			if (side == 1 && (y - 1) > 0) {
+				coordinates.setY(y - 1);
+			} else if (side == 0 && (y + ship.getCurrentNumberOfMasts()) <= 10) {
+				coordinates.setY(y + ship.getCurrentNumberOfMasts());
+			}
 		}
 		return coordinates;
 	}
 
-	private int setMast(int randomSide, int firstMastXorY, Ship ship) {
-		if (randomLeftSide(randomSide) && thereIsPlaceOnTheLeftOrTop(firstMastXorY)) {
-			return returnThePreviousField(firstMastXorY);
-		} else if (randomRightSide(randomSide) && thereIsPlaceOnTheRightOrDwon(firstMastXorY, ship)) {
-			return returnTheNextField(firstMastXorY, ship.getCurrentNumberOfMasts());
-		}
-		return RANDOM_COORDINATE_IS_NOT_GOOD;
-	}
-
-	private int returnTheNextField(int firstMastXorY, int currentNumberOfMasts) {
-		return firstMastXorY + currentNumberOfMasts;
-	}
-
-	private int returnThePreviousField(int firstMastXorY) {
-		return firstMastXorY - 1;
-	}
-
-	private boolean thereIsPlaceOnTheRightOrDwon(int firstMastXorY, Ship ship) {
-		return (firstMastXorY + ship.getCurrentNumberOfMasts()) <= 10;
-	}
-
-	private boolean randomRightSide(int randomSide) {
-		return randomSide == RIGHT_OR_DOWN;
-	}
-
-	private boolean randomLeftSide(int randomSide) {
-		return (randomSide == LEFT_OR_TOP);
-	}
-
-	private boolean thereIsPlaceOnTheLeftOrTop(int firstMastXorY) {
-		return (firstMastXorY - 1) > 0;
-	}
-
-	private boolean theDirectionIsAlongX(int shipDirection) {
-		return shipDirection == DIRECTION_ALONG_X;
-	}
-
-	private boolean theDirectionIsAlongY(int shipDirection) {
-		return shipDirection == DIRECTION_ALONG_Y;
-	}
-
 	private Coordinates randomTheSecondMast(Ship ship) {
-		int direction = random.nextInt(RANDOM_TWO_DIRECTION) + 1;
+		int direction = random.nextInt(2) + 1;
 		return assignCoordinates(direction, ship);
 	}
 
 
 	private Coordinates assignCoordinates(int direction, Ship ship) {
-		int firstMastX = ship.getCoordinates(FIRST_MAST).getX();
-		int firstMastY = ship.getCoordinates(FIRST_MAST).getY();
+		int x = ship.getCoordinates(firstMast).getX();
+		int y = ship.getCoordinates(firstMast).getY();
 		Coordinates coordinates = new Coordinates();
-		int randomSide = random.nextInt(RANDOM_TWO_SIDE);
+		int side = random.nextInt(2);
 
-		if (direction == DIRECTION_ALONG_X) {
-			coordinates = followWhenDirectionItIsAlongX(randomSide, firstMastX, firstMastY);
-		} else if (direction == DIRECTION_ALONG_Y) {
-			coordinates = followWhenDirectionItIsAlongY(randomSide, firstMastX, firstMastY);
+		if (direction == directionY) {
+			coordinates = followWhenDirectionItIsY(side, x, y);
+		} else if (direction == directionX) {
+			coordinates = followWhenDirectionItIsX(side, x, y);
 		}
 
 		return coordinates;
 	}
 
-	private Coordinates followWhenDirectionItIsAlongX(int side, int coordinateX, int coordinateY) {
+	private Coordinates followWhenDirectionItIsY(int side, int x, int y) {
 		Coordinates coordinates = new Coordinates();
-		coordinates.setX(coordinateX);
-		if (side == LEFT_OR_TOP && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX, coordinateY - 1)))
-			coordinates.setY(coordinateY - 1);
-		else if (side == RIGHT_OR_DOWN && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX, coordinateY + 1)))
-			coordinates.setY(coordinateY + 1);
+		coordinates.setX(x);
+		if (side == leftAndTop && CheckData.checkIfWithinThePlayingField(new Coordinates(x, y - 1)))
+			coordinates.setY(y - 1);
+		else if (side == rightAndDown && CheckData.checkIfWithinThePlayingField(new Coordinates(x, y + 1)))
+			coordinates.setY(y + 1);
 
 		return coordinates;
 	}
 
-	private Coordinates followWhenDirectionItIsAlongY(int side, int coordinateX, int coordinateY) {
+	private Coordinates followWhenDirectionItIsX(int side, int x, int y) {
 		Coordinates coordinates = new Coordinates();
-		coordinates.setY(coordinateY);
-		if (side == LEFT_OR_TOP && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX - 1, coordinateY)))
-			coordinates.setX(coordinateX - 1);
-		else if (side == RIGHT_OR_DOWN && CheckData.checkIfWithinThePlayingField(new Coordinates(coordinateX + 1, coordinateY)))
-			coordinates.setX(coordinateX + 1);
+		coordinates.setY(y);
+		if (side == leftAndTop && CheckData.checkIfWithinThePlayingField(new Coordinates(x - 1, y)))
+			coordinates.setX(x - 1);
+		else if (side == rightAndDown && CheckData.checkIfWithinThePlayingField(new Coordinates(x + 1, y)))
+			coordinates.setX(x + 1);
 
 		return coordinates;
 	}
